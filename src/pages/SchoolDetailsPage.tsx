@@ -81,13 +81,13 @@ export function SchoolDetailsPage({ schoolId, onNavigate }: SchoolDetailsPagePro
           gradeLevels: schoolData.grade_levels,
           description: schoolData.description,
           imageUrl: schoolData.image_url,
-          overallRating: schoolData.overall_rating,
-          academicsRating: schoolData.academics_rating,
-          facilitiesRating: schoolData.facilities_rating,
-          teachersRating: schoolData.teachers_rating,
-          safetyRating: schoolData.safety_rating,
-          extracurricularsRating: schoolData.extracurriculars_rating,
-          totalReviews: schoolData.total_reviews
+          overallRating: schoolData.overall_rating || 0,
+          academicsRating: schoolData.academics_rating || 0,
+          facilitiesRating: schoolData.facilities_rating || 0,
+          teachersRating: schoolData.teachers_rating || 0,
+          safetyRating: schoolData.safety_rating || 0,
+          extracurricularsRating: schoolData.extracurriculars_rating || 0,
+          totalReviews: schoolData.total_reviews || 0
         })
       }
     } catch (error) {
@@ -107,12 +107,12 @@ export function SchoolDetailsPage({ schoolId, onNavigate }: SchoolDetailsPagePro
 
       setReviews(reviewsData.map(review => ({
         id: review.id,
-        overallRating: review.overall_rating,
-        academicsRating: review.academics_rating,
-        facilitiesRating: review.facilities_rating,
-        teachersRating: review.teachers_rating,
-        safetyRating: review.safety_rating,
-        extracurricularsRating: review.extracurriculars_rating,
+        overallRating: review.overall_rating || 0,
+        academicsRating: review.academics_rating || 0,
+        facilitiesRating: review.facilities_rating || 0,
+        teachersRating: review.teachers_rating || 0,
+        safetyRating: review.safety_rating || 0,
+        extracurricularsRating: review.extracurriculars_rating || 0,
         title: review.title,
         content: review.content,
         pros: review.pros,
@@ -137,14 +137,15 @@ export function SchoolDetailsPage({ schoolId, onNavigate }: SchoolDetailsPagePro
   }, [schoolId])
 
   const renderStars = (rating: number, size: 'sm' | 'md' = 'sm') => {
+    const safeRating = rating || 0
     const starSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5'
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
         className={`${starSize} ${
-          i < Math.floor(rating)
+          i < Math.floor(safeRating)
             ? 'text-accent fill-accent'
-            : i < rating
+            : i < safeRating
             ? 'text-accent fill-accent/50'
             : 'text-muted-foreground'
         }`}
@@ -398,7 +399,7 @@ export function SchoolDetailsPage({ schoolId, onNavigate }: SchoolDetailsPagePro
               <CardContent>
                 <div className="text-center mb-6">
                   <div className="text-4xl font-bold text-foreground mb-2">
-                    {school.overallRating.toFixed(1)}
+                    {(school.overallRating || 0).toFixed(1)}
                   </div>
                   <div className="flex items-center justify-center space-x-1 mb-2">
                     {renderStars(school.overallRating, 'md')}
@@ -416,50 +417,50 @@ export function SchoolDetailsPage({ schoolId, onNavigate }: SchoolDetailsPagePro
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Academics</span>
                       <span className="text-sm text-muted-foreground">
-                        {school.academicsRating.toFixed(1)}
+                        {(school.academicsRating || 0).toFixed(1)}
                       </span>
                     </div>
-                    <Progress value={school.academicsRating * 20} className="h-2" />
+                    <Progress value={(school.academicsRating || 0) * 20} className="h-2" />
                   </div>
 
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Teachers</span>
                       <span className="text-sm text-muted-foreground">
-                        {school.teachersRating.toFixed(1)}
+                        {(school.teachersRating || 0).toFixed(1)}
                       </span>
                     </div>
-                    <Progress value={school.teachersRating * 20} className="h-2" />
+                    <Progress value={(school.teachersRating || 0) * 20} className="h-2" />
                   </div>
 
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Facilities</span>
                       <span className="text-sm text-muted-foreground">
-                        {school.facilitiesRating.toFixed(1)}
+                        {(school.facilitiesRating || 0).toFixed(1)}
                       </span>
                     </div>
-                    <Progress value={school.facilitiesRating * 20} className="h-2" />
+                    <Progress value={(school.facilitiesRating || 0) * 20} className="h-2" />
                   </div>
 
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Safety</span>
                       <span className="text-sm text-muted-foreground">
-                        {school.safetyRating.toFixed(1)}
+                        {(school.safetyRating || 0).toFixed(1)}
                       </span>
                     </div>
-                    <Progress value={school.safetyRating * 20} className="h-2" />
+                    <Progress value={(school.safetyRating || 0) * 20} className="h-2" />
                   </div>
 
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Extracurriculars</span>
                       <span className="text-sm text-muted-foreground">
-                        {school.extracurricularsRating.toFixed(1)}
+                        {(school.extracurricularsRating || 0).toFixed(1)}
                       </span>
                     </div>
-                    <Progress value={school.extracurricularsRating * 20} className="h-2" />
+                    <Progress value={(school.extracurricularsRating || 0) * 20} className="h-2" />
                   </div>
                 </div>
               </CardContent>

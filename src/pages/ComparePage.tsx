@@ -67,13 +67,13 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
         website: school.website,
         schoolType: school.school_type,
         gradeLevels: school.grade_levels,
-        overallRating: school.overall_rating,
-        academicsRating: school.academics_rating,
-        facilitiesRating: school.facilities_rating,
-        teachersRating: school.teachers_rating,
-        safetyRating: school.safety_rating,
-        extracurricularsRating: school.extracurriculars_rating,
-        totalReviews: school.total_reviews
+        overallRating: school.overall_rating || 0,
+        academicsRating: school.academics_rating || 0,
+        facilitiesRating: school.facilities_rating || 0,
+        teachersRating: school.teachers_rating || 0,
+        safetyRating: school.safety_rating || 0,
+        extracurricularsRating: school.extracurriculars_rating || 0,
+        totalReviews: school.total_reviews || 0
       }))
 
       setSearchResults(schools.filter(school => 
@@ -109,13 +109,14 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
   }
 
   const renderStars = (rating: number) => {
+    const safeRating = rating || 0
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
         className={`h-4 w-4 ${
-          i < Math.floor(rating)
+          i < Math.floor(safeRating)
             ? 'text-accent fill-accent'
-            : i < rating
+            : i < safeRating
             ? 'text-accent fill-accent/50'
             : 'text-muted-foreground'
         }`}
@@ -124,10 +125,11 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
   }
 
   const getRatingColor = (rating: number) => {
-    if (rating >= 4.5) return 'text-green-600'
-    if (rating >= 4.0) return 'text-green-500'
-    if (rating >= 3.5) return 'text-yellow-500'
-    if (rating >= 3.0) return 'text-orange-500'
+    const safeRating = rating || 0
+    if (safeRating >= 4.5) return 'text-green-600'
+    if (safeRating >= 4.0) return 'text-green-500'
+    if (safeRating >= 3.5) return 'text-yellow-500'
+    if (safeRating >= 3.0) return 'text-orange-500'
     return 'text-red-500'
   }
 
@@ -209,7 +211,7 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
                                 <div className="flex items-center space-x-1">
                                   {renderStars(school.overallRating)}
                                   <span className="text-sm font-medium">
-                                    {school.overallRating.toFixed(1)}
+                                    {(school.overallRating || 0).toFixed(1)}
                                   </span>
                                 </div>
                                 <Badge variant="secondary">
@@ -252,7 +254,7 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
                       <div className="flex items-center space-x-1">
                         {renderStars(school.overallRating)}
                         <span className="text-sm font-medium ml-1">
-                          {school.overallRating.toFixed(1)}
+                          {(school.overallRating || 0).toFixed(1)}
                         </span>
                       </div>
                     </div>
@@ -327,7 +329,7 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
                                 ? 'text-green-600'
                                 : getRatingColor(school.overallRating)
                             }`}>
-                              {school.overallRating.toFixed(1)}
+                              {(school.overallRating || 0).toFixed(1)}
                             </span>
                             <div className="flex space-x-0.5">
                               {renderStars(school.overallRating)}
@@ -345,7 +347,7 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
                               ? 'text-green-600'
                               : getRatingColor(school.academicsRating)
                           }`}>
-                            {school.academicsRating.toFixed(1)}
+                            {(school.academicsRating || 0).toFixed(1)}
                           </span>
                         </TableCell>
                       ))}
@@ -359,7 +361,7 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
                               ? 'text-green-600'
                               : getRatingColor(school.teachersRating)
                           }`}>
-                            {school.teachersRating.toFixed(1)}
+                            {(school.teachersRating || 0).toFixed(1)}
                           </span>
                         </TableCell>
                       ))}
@@ -373,7 +375,7 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
                               ? 'text-green-600'
                               : getRatingColor(school.facilitiesRating)
                           }`}>
-                            {school.facilitiesRating.toFixed(1)}
+                            {(school.facilitiesRating || 0).toFixed(1)}
                           </span>
                         </TableCell>
                       ))}
@@ -387,7 +389,7 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
                               ? 'text-green-600'
                               : getRatingColor(school.safetyRating)
                           }`}>
-                            {school.safetyRating.toFixed(1)}
+                            {(school.safetyRating || 0).toFixed(1)}
                           </span>
                         </TableCell>
                       ))}
@@ -401,7 +403,7 @@ export function ComparePage({ onNavigate }: ComparePageProps) {
                               ? 'text-green-600'
                               : getRatingColor(school.extracurricularsRating)
                           }`}>
-                            {school.extracurricularsRating.toFixed(1)}
+                            {(school.extracurricularsRating || 0).toFixed(1)}
                           </span>
                         </TableCell>
                       ))}

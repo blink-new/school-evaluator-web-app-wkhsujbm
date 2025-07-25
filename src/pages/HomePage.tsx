@@ -43,8 +43,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
         state: school.state,
         schoolType: school.school_type,
         gradeLevels: school.grade_levels,
-        overallRating: school.overall_rating,
-        totalReviews: school.total_reviews,
+        overallRating: school.overall_rating || 0,
+        totalReviews: school.total_reviews || 0,
         imageUrl: school.image_url
       })))
     } catch (error) {
@@ -66,13 +66,14 @@ export function HomePage({ onNavigate }: HomePageProps) {
   }
 
   const renderStars = (rating: number) => {
+    const safeRating = rating || 0
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
         className={`h-4 w-4 ${
-          i < Math.floor(rating)
+          i < Math.floor(safeRating)
             ? 'text-accent fill-accent'
-            : i < rating
+            : i < safeRating
             ? 'text-accent fill-accent/50'
             : 'text-muted-foreground'
         }`}
@@ -197,7 +198,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                       <div className="flex items-center space-x-1">
                         {renderStars(school.overallRating)}
                         <span className="text-sm font-medium ml-2">
-                          {school.overallRating.toFixed(1)}
+                          {(school.overallRating || 0).toFixed(1)}
                         </span>
                       </div>
                       <span className="text-sm text-muted-foreground">
